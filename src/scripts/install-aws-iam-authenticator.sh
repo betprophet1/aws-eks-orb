@@ -4,15 +4,14 @@ if which aws-iam-authenticator > /dev/null; then
     exit 0
 fi
 PLATFORM="linux"
-if uname | grep -q 'Darwin' 
+if uname | grep -q 'Darwin'
 then
     PLATFORM="darwin"
 fi
 FILENAME="aws-iam-authenticator"
 VERSION=$(curl -Ls --fail --retry 3 -o /dev/null -w "%{url_effective}" "https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/latest" | sed 's:.*/::' | sed 's/v//g')
 if [ -n "${PARAM_RELEASE_TAG}" ]; then
-    export RELEASE_TAG=${!PARAM_RELEASE_TAG}
-    VERSION="${RELEASE_TAG}"
+    VERSION="${PARAM_RELEASE_TAG}"
     if [ "${VERSION}" == "0.3.0" ]; then
     FILENAME="heptio-authenticator-aws"
     fi
